@@ -2,6 +2,8 @@ import Foundation
 
 final class StatisticService {
     private let storage: UserDefaults = .standard
+    private let questionsAmount = 10
+    
     private var totalCorrect: Int {
         get {
             storage.integer(forKey: Keys.correct.rawValue)
@@ -9,6 +11,10 @@ final class StatisticService {
         set {
             storage.set(newValue, forKey: Keys.correct.rawValue)
         }
+    }
+    
+    private var totalQuestions: Int {
+        gamesCount * questionsAmount
     }
     
     private enum Keys: String {
@@ -47,7 +53,7 @@ extension StatisticService: StatisticServiceProtocol {
     }
     
     var totalAccuracy: Double {
-        gamesCount != 0 ? Double(totalCorrect) / (10 * Double(gamesCount)) * 100 : 0
+        gamesCount != 0 ? Double(totalCorrect) / Double(totalQuestions) * 100 : 0
     }
     
     func storeIfNeeded(result: GameResult) {
