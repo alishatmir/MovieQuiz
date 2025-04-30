@@ -2,9 +2,12 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
+    @IBOutlet private var questionLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
+    @IBOutlet var noButton: UIButton!
+    @IBOutlet var yesButton: UIButton!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
@@ -35,6 +38,11 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.cornerRadius = 20
         imageView.backgroundColor = .clear
         textLabel.text = ""
+        questionLabel.font = YSDisplay.medium.font(with: 20)
+        counterLabel.font = YSDisplay.medium.font(with: 20)
+        textLabel.font = YSDisplay.bold.font(with: 23)
+        noButton.titleLabel?.font = YSDisplay.bold.font(with: 20)
+        yesButton.titleLabel?.font = YSDisplay.bold.font(with: 20)
         
         initialSetup()
         
@@ -47,7 +55,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - QuestionFactoryDelegate
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {return}
+        guard let question else {return}
         
         hideLoadingIndicator()
         
@@ -75,7 +83,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         let model = AlertModel(title: "Ошибка",
                                message: message,
                                buttonText: "Попробовать еще раз") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
@@ -163,21 +171,21 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.showNextQuestionOrResults()
         }
         
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion, !isLock else { return }
+        guard let currentQuestion, !isLock else { return }
         isLock = true
         
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion, !isLock else { return }
+        guard let currentQuestion, !isLock else { return }
         isLock = true
         
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)

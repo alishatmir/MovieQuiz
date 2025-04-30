@@ -17,7 +17,7 @@ struct NetworkClient {
             }
             
             if let response = response as? HTTPURLResponse,
-                response.statusCode < 200 || response.statusCode >= 300 {
+               !(200..<300 ~= response.statusCode) {
                 handler(.failure(NetworkError.codeError))
                 return
             }

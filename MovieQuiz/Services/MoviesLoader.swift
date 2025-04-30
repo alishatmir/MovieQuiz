@@ -10,14 +10,13 @@ struct MoviesLoader: MoviesLoading {
     private let networkClient = NetworkClient()
     
     // MARK: - URL
-    private var mostPopularMoviesUrl: URL {
-        guard let url = URL(string: "https://tv-api.com/API/MostPopularMovies/k_zcuw1ytf") else {
-            preconditionFailure("Unable to construct mostPopularMoviesUrl")
-        }
-        return url
+    private var mostPopularMoviesUrl: URL? {
+        URL(string: "https://tv-api.com/API/MostPopularMovies/k_zcuw1ytf")
     }
     
     func loadMovies(handler: @escaping (Result<MostPopularMovies, Error>) -> Void) {
+        guard let mostPopularMoviesUrl else { return }
+        
         networkClient.fetch(url: mostPopularMoviesUrl) { result in
             switch result {
             case .success(let data):
