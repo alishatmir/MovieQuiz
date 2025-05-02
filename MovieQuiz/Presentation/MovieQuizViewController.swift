@@ -41,8 +41,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         questionLabel.font = YSDisplay.medium.font(with: 20)
         counterLabel.font = YSDisplay.medium.font(with: 20)
         textLabel.font = YSDisplay.bold.font(with: 23)
-        noButton.titleLabel?.font = YSDisplay.bold.font(with: 20)
-        yesButton.titleLabel?.font = YSDisplay.bold.font(with: 20)
+        noButton.titleLabel?.font = YSDisplay.medium.font(with: 20)
+        yesButton.titleLabel?.font = YSDisplay.medium.font(with: 20)
         
         initialSetup()
         
