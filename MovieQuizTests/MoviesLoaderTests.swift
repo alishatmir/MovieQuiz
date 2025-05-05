@@ -71,7 +71,7 @@ class MoviesLoaderTests: XCTestCase {
     
     func testFailureLoading() throws {
         let stubNetworkClient = StubNetworkClient(emulateError: true)
-        let loader = MoviesLoader()
+        let loader = MoviesLoader(networkClient: stubNetworkClient)
         
         let expectation = expectation(description: "Loading expectation")
         
