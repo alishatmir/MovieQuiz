@@ -4,7 +4,7 @@ final class MovieQuizPresenter {
     
     private let statisticService: StatisticServiceProtocol
     private var questionFactory: QuestionFactoryProtocol?
-    private weak var viewController: MovieQuizViewController?
+    private weak var viewController: MovieQuizViewControllerProtocol?
     
     private var currentQuestionIndex: Int = 0
     private var correctAnswers = 0
@@ -13,7 +13,7 @@ final class MovieQuizPresenter {
     private var isLock = false
 
     
-    init(viewController: MovieQuizViewController) {
+    init(viewController: MovieQuizViewControllerProtocol) {
         self.statisticService = StatisticService()
         self.questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         self.viewController = viewController
@@ -36,6 +36,13 @@ final class MovieQuizPresenter {
         correctAnswers = 0
         viewController?.showLoadingIndicator()
         questionFactory?.loadData()
+    }
+    
+    func convert(model: QuizQuestion) -> QuizStepViewModel {
+        return QuizStepViewModel(
+            image: UIImage(data: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
 }
 
@@ -95,13 +102,6 @@ private extension MovieQuizPresenter {
         }
         
         proceedWithAnswer(isCorrect: isCorrect)
-    }
-    
-    func convert(model: QuizQuestion) -> QuizStepViewModel {
-        return QuizStepViewModel(
-            image: UIImage(data: model.image) ?? UIImage(),
-            question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
     
     func isLastQuestion() -> Bool {
