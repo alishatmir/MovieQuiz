@@ -1,7 +1,7 @@
 import XCTest
 @testable import MovieQuiz
 
-class ArrayTests: XCTest {
+final class ArrayTests: XCTest {
     func testGetValueInRange() throws {
         let array = [1, 1, 2, 3, 5]
         let value = array [safe: 2]

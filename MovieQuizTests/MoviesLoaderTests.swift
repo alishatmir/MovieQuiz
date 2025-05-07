@@ -2,7 +2,7 @@ import XCTest
 
 @testable import MovieQuiz
 
-class MoviesLoaderTests: XCTestCase {
+final class MoviesLoaderTests: XCTestCase {
     struct StubNetworkClient: NetworkRouting {
         enum TestError: Error {
             case test
